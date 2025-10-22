@@ -143,13 +143,14 @@ public partial class MainWindow : Window
         {
             var button = new Button
             {
-                Content = TruncateLabel(buttonConfig.Label),
+                Content = CreateButtonContent(buttonConfig),
                 Tag = buttonConfig,
                 Margin = new Thickness(4),
                 Padding = new Thickness(12, 8, 12, 8),
                 MinWidth = 120,
                 MinHeight = 60,
-                IsEnabled = buttonConfig.Enabled
+                IsEnabled = buttonConfig.Enabled,
+                ToolTip = buttonConfig.Label
             };
 
             button.Click += ActionButtonOnClick;
@@ -180,6 +181,53 @@ public partial class MainWindow : Window
         }
 
         _actionExecutor.Execute(config);
+    }
+
+    private UIElement CreateButtonContent(ButtonConfig config)
+    {
+        var stackPanel = new StackPanel
+        {
+            Orientation = Orientation.Vertical,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        var iconText = new TextBlock
+        {
+            Text = GetIconGlyph(config),
+            FontSize = 26,
+            TextAlignment = TextAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 4)
+        };
+
+        var labelText = new TextBlock
+        {
+            Text = TruncateLabel(config.Label),
+            TextAlignment = TextAlignment.Center,
+            TextWrapping = TextWrapping.Wrap
+        };
+
+        stackPanel.Children.Add(iconText);
+        stackPanel.Children.Add(labelText);
+
+        return stackPanel;
+    }
+
+    private static string GetIconGlyph(ButtonConfig config)
+    {
+        if (!config.TryGetActionType(out var actionType))
+        {
+            return "🔘";
+        }
+
+        return actionType switch
+        {
+            ButtonActionType.OpenExplorer => "📁",
+            ButtonActionType.RunExeBat => "⚙️",
+            ButtonActionType.RunPs1 => "🖥️",
+            ButtonActionType.CopyClipboard => "📋",
+            ButtonActionType.OpenUrlFirefox => "🦊",
+            _ => "🔘"
+        };
     }
 
     private void ReloadButton_Click(object sender, RoutedEventArgs e)
