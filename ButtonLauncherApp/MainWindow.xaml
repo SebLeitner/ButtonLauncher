@@ -5,6 +5,7 @@
     <DockPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="8" VerticalAlignment="Center">
             <Button Content="Neu laden" Click="ReloadButton_Click" Padding="16,6" Margin="0,0,8,0"/>
+            <Button Content="Editor öffnen" Click="OpenEditorButton_Click" Padding="16,6" Margin="0,0,8,0"/>
             <TextBlock x:Name="StatusTextBlock" VerticalAlignment="Center" TextWrapping="Wrap"/>
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto">

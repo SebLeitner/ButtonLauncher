@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using ButtonLauncherApp.Models;
 using ButtonLauncherApp.Services;
+using ButtonLauncherApp.Views;
 
 namespace ButtonLauncherApp;
 
@@ -15,6 +16,7 @@ public partial class MainWindow : Window
     private readonly string _configPath;
     private readonly ILogService _logger;
     private readonly ConfigurationLoader _configurationLoader;
+    private readonly ConfigurationSaver _configurationSaver;
     private ButtonActionExecutor? _actionExecutor;
     private FileSystemWatcher? _fileWatcher;
     private readonly DispatcherTimer _reloadThrottleTimer;
@@ -26,6 +28,7 @@ public partial class MainWindow : Window
         _configPath = Path.Combine(AppContext.BaseDirectory, "buttons.json");
         _logger = new FileLogService();
         _configurationLoader = new ConfigurationLoader(_logger);
+        _configurationSaver = new ConfigurationSaver(_logger);
         _reloadThrottleTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromMilliseconds(300)
@@ -182,5 +185,20 @@ public partial class MainWindow : Window
     private void ReloadButton_Click(object sender, RoutedEventArgs e)
     {
         TryReloadConfiguration();
+    }
+
+    private void OpenEditorButton_Click(object sender, RoutedEventArgs e)
+    {
+        var editor = new ButtonEditorWindow(_configPath, _configurationLoader, _configurationSaver, _logger)
+        {
+            Owner = this
+        };
+
+        var result = editor.ShowDialog();
+
+        if (result == true)
+        {
+            TryReloadConfiguration();
+        }
     }
 }
