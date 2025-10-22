@@ -98,7 +98,7 @@ public sealed class ButtonActionExecutor
             throw new InvalidOperationException("Es wurde keine Datei angegeben.");
         }
 
-        if (!File.Exists(fileName))
+        if (IsPathCheckRequired(fileName) && !File.Exists(fileName))
         {
             throw new FileNotFoundException($"Datei '{fileName}' wurde nicht gefunden.");
         }
@@ -114,6 +114,16 @@ public sealed class ButtonActionExecutor
         }
 
         Process.Start(psi);
+    }
+
+    private static bool IsPathCheckRequired(string fileName)
+    {
+        // Allow commands such as "powershell.exe" or "notepad" to be resolved via the
+        // operating system's PATH lookup. Only verify the file exists when an explicit
+        // directory is provided to avoid false negatives for built-in executables.
+        return Path.IsPathRooted(fileName)
+               || fileName.Contains(Path.DirectorySeparatorChar)
+               || fileName.Contains(Path.AltDirectorySeparatorChar);
     }
 
     private void ExecutePowerShell(string scriptPath, bool runAsAdmin)
