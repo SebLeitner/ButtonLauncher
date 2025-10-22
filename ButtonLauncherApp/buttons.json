@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "version": "1.0",
+    "grid_columns": 6
+  },
+  "buttons": [
+    {
+      "id": "btn1",
+      "label": "Projektordner",
+      "action_type": "open_explorer",
+      "target": "C:\\Users\\Dasti\\Projekte",
+      "confirm": "none",
+      "run_as_admin": false,
+      "enabled": true
+    },
+    {
+      "id": "btn2",
+      "label": "Starte Tool",
+      "action_type": "run_exe_bat",
+      "target": "C:\\Tools\\meinTool.exe",
+      "confirm": "yes_no_dialog",
+      "run_as_admin": true,
+      "enabled": true
+    },
+    {
+      "id": "btn3",
+      "label": "Backup",
+      "action_type": "run_ps1",
+      "target": "C:\\Scripts\\backup.ps1",
+      "confirm": "yes_no_dialog",
+      "run_as_admin": true,
+      "enabled": true
+    },
+    {
+      "id": "btn4",
+      "label": "Passwort",
+      "action_type": "copy_clipboard",
+      "target": "super-geheim-123!",
+      "confirm": "none",
+      "run_as_admin": false,
+      "enabled": true
+    },
+    {
+      "id": "btn5",
+      "label": "Wiki",
+      "action_type": "open_url_firefox",
+      "target": "https://intra.example.local/wiki",
+      "confirm": "none",
+      "run_as_admin": false,
+      "enabled": true
+    }
+  ]
+}
