@@ -5,7 +5,7 @@ Ein kleines WPF-Tool, das häufig genutzte Aufgaben über konfigurierbare Button
 ## Projektstruktur
 
 - `ButtonLauncher.sln` – Visual-Studio-Lösung
-- `ButtonLauncherApp/` – WPF-Anwendung (.NET 7)
+- `ButtonLauncherApp/` – WPF-Anwendung (.NET 9)
   - `ButtonLauncherApp.csproj` – Projektdatei
   - `App.xaml` / `App.xaml.cs` – Anwendungseinstieg
   - `MainWindow.xaml` / `MainWindow.xaml.cs` – Benutzeroberfläche mit dynamisch erzeugten Buttons
@@ -29,3 +29,24 @@ Unterstützte Aktionen:
 - URL in Firefox (oder ersatzweise im Standardbrowser) öffnen
 
 Fehler werden in `logs/button-launcher.log` protokolliert.
+
+## Release-Build erstellen
+
+### Über die .NET-CLI
+
+1. Abhängigkeiten wiederherstellen:
+   ```bash
+   dotnet restore
+   ```
+2. Veröffentlichung für Windows (x64) erstellen:
+   ```bash
+   dotnet publish ButtonLauncherApp/ButtonLauncherApp.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=false
+   ```
+   Das Ergebnis liegt im Ordner `ButtonLauncherApp/bin/Release/net9.0-windows/win-x64/publish/`.
+
+### Über Visual Studio
+
+1. In der Konfigurationsauswahl `Release` wählen.
+2. Menü **Build** → **Veröffentlichen** → **Neue Veröffentlichung konfigurieren…** und als Ziel „Ordner“ auswählen.
+3. Pfad für die Ausgabe wählen und den Veröffentlichungsassistenten abschließen.
+4. Mit **Veröffentlichen** den Release-Build erzeugen.
